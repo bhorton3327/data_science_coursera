@@ -1,6 +1,8 @@
 ## load packages
 library(tidyverse)
 library(data.table)
+library(dplyr)
+library(plyr)
 
 ## step 1: read in and merge the data
 
@@ -41,3 +43,21 @@ data1 =
   )
 
 ## step 4: descriptive variable names [see step 2]
+
+## step 5: create a second dataset with the average of each variable for each activity and subject
+
+test_subject <- read.table("data/UCI HAR Dataset/test/subject_test.txt")
+train_subject <- read.table("data/UCI HAR Dataset/train/subject_train.txt")
+
+subjects <- c(test_subject[ ,1], train_subject[ ,1])
+
+data1 = 
+  data1 %>% 
+  mutate(
+    subject = subjects,
+    subject = as.factor(subject)
+  )
+
+data2 = 
+  data1 %>% 
+  ddply(.(subject, activity), colwise(mean))
