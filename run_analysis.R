@@ -19,3 +19,9 @@ data <- merge(testdf, traindf, all = TRUE)
 
 ## extract only the measurements on mean and standard deviation
 
+variablenames <- read.table("data/UCI HAR Dataset/features.txt")
+names(data) <- variablenames[ ,2]
+
+data1 <- data[ ,grepl("mean|std", names(data))]
+
+
